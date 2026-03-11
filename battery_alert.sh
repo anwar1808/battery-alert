@@ -1,5 +1,6 @@
 #!/bin/bash
 
+LOCK_79="$HOME/.battery_alert_79_triggered"
 LOCK_80="$HOME/.battery_alert_80_triggered"
 LOCK_20="$HOME/.battery_alert_20_triggered"
 
@@ -18,16 +19,16 @@ else
     STATUS="other"  # fully charged, AC attached, etc.
 fi
 
-# --- 80% charge alert ---
-if [ "$STATUS" = "charging" ] && [ "$PERCENT" -ge 80 ]; then
-    if [ ! -f "$LOCK_80" ]; then
-        touch "$LOCK_80"
+# --- 79% charge alert ---
+if [ "$STATUS" = "charging" ] && [ "$PERCENT" -ge 79 ]; then
+    if [ ! -f "$LOCK_79" ]; then
+        touch "$LOCK_79"
         afplay /System/Library/Sounds/Glass.aiff &
-        osascript -e 'display notification "Battery at 80% — unplug to protect battery health" with title "Unplug Charger"'
+        osascript -e 'display notification "Battery at 79% — unplug to protect battery health" with title "Unplug Charger"'
     fi
 else
-    # Reset once battery drops back below 75% (so next charge cycle re-alerts)
-    [ "$PERCENT" -lt 75 ] && rm -f "$LOCK_80"
+    # Reset once battery drops back below 74% (so next charge cycle re-alerts)
+    [ "$PERCENT" -lt 74 ] && rm -f "$LOCK_79"
 fi
 
 # --- 20% discharge alert ---
