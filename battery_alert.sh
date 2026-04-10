@@ -24,7 +24,7 @@ if [ "$STATUS" = "charging" ] && [ "$PERCENT" -ge 79 ]; then
     if [ ! -f "$LOCK_79" ]; then
         touch "$LOCK_79"
         afplay /System/Library/Sounds/Glass.aiff &
-        osascript -e 'display alert "Unplug Charger" message "Battery at 79% — unplug to protect battery health" buttons {"OK"} default button "OK"' &
+        osascript -e 'display notification "Battery at 79% — unplug to protect battery health" with title "Unplug Charger"' &
     fi
 else
     # Reset if charging but below 79% (new charge cycle) OR battery drained below 74%
@@ -38,7 +38,7 @@ if [ "$STATUS" = "discharging" ] && [ "$PERCENT" -le 20 ]; then
     if [ ! -f "$LOCK_20" ]; then
         touch "$LOCK_20"
         afplay /System/Library/Sounds/Funk.aiff &
-        osascript -e 'display alert "🪫🫠 Low Battery" message "Battery at 20% — plug in now" buttons {"OK"} default button "OK"' &
+        osascript -e 'display notification "Battery at 20% — plug in now" with title "🪫🫠 Low Battery"' &
     fi
 else
     # Reset once battery climbs back above 25%
