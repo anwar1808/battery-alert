@@ -35,10 +35,13 @@ else
 fi
 
 # --- 20% discharge alert ---
+# Uses a modal dialog (display dialog) rather than a banner notification — stays on screen
+# until dismissed, so it can't be missed even if we're mid-task.
 if [ "$STATUS" = "discharging" ] && [ "$PERCENT" -le 20 ]; then
     if [ ! -f "$LOCK_20" ]; then
         touch "$LOCK_20"
-        "$NOTIFIER" -title "🪫🫠 Low Battery" -message "Battery at 20% — plug in now" -sound Funk &
+        osascript -e "display dialog \"Battery at ${PERCENT}% — plug in now\" with title \"🪫🫠 Low Battery\" buttons {\"OK\"} default button \"OK\" with icon caution giving up after 0" &
+        afplay /System/Library/Sounds/Funk.aiff &
     fi
 else
     # Reset once battery climbs back above 25%
